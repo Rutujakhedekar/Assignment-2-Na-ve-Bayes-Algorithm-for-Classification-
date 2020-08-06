@@ -1,0 +1,25 @@
+#....................part 1................................
+#prog2 : using diabetes data with naive bayes
+library(&quot;e1071&quot;)
+library(&quot;caTools&quot;)
+#import dataset
+mydata&lt;-read.csv(&quot;PimaIndiansDiabetes.csv&quot;)
+dim(PimaIndiansDiabetes)
+View(mydata)
+temp_field&lt;-sample.split(mydata,SplitRatio=0.7)
+traindata&lt;-subset(mydata, temp_field==TRUE)
+testdata&lt;-subset(mydata, temp_field==FALSE)
+traindata
+testdata
+#.........part 2............................
+my_model&lt;-naiveBayes(as.factor(traindata$Class)~.,traindata)
+my_model
+#.........part 3............................
+#predicting, try putting type=&quot;class&quot; or type=&quot;raw&quot; after the test data
+pred1&lt;-predict(my_model,testdata[,-9])
+pred1
+#generate the confusion matrix
+table(pred1, testdata$Class, dnn=c(&quot;predicted&quot;, &quot;Actual&quot;))
+#To save the prediction
+output&lt;-cbind(testdata, pred1)
+View(output)
